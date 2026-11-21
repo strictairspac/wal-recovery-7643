@@ -5,3 +5,4 @@ export async function api(path, options={}) {
  return response.json();
 }
 export async function download(id){const r=await fetch('/api/recoveries/'+id+'/export',{headers:{Authorization:'Bearer '+session.token}});if(!r.ok)throw new Error('导出失败');const u=URL.createObjectURL(await r.blob());const a=document.createElement('a');a.href=u;a.download='recovery-'+id+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);}
+export async function downloadReplica(id){const r=await fetch('/api/replica-recoveries/'+id+'/export',{headers:{Authorization:'Bearer '+session.token}});if(!r.ok)throw new Error('导出失败');const u=URL.createObjectURL(await r.blob());const a=document.createElement('a');a.href=u;a.download='replica-recovery-'+id+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);}

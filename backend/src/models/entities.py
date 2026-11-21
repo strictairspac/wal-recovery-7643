@@ -32,6 +32,25 @@ class Recovery(Base):
     snapshot: Mapped[dict]=mapped_column(JSON)
     result: Mapped[dict | None]=mapped_column(JSON,nullable=True)
     created_at: Mapped[datetime]=mapped_column(DateTime,default=now)
+class ReplicaBundle(Base):
+    __tablename__='replica_bundles'
+    id: Mapped[int]=mapped_column(primary_key=True)
+    name: Mapped[str]=mapped_column(String(100),unique=True)
+    initial: Mapped[dict]=mapped_column(JSON)
+    replica_a: Mapped[list]=mapped_column(JSON)
+    replica_b: Mapped[list]=mapped_column(JSON)
+    vouchers: Mapped[list]=mapped_column(JSON)
+    crash_after: Mapped[int]=mapped_column(Integer)
+    description: Mapped[str]=mapped_column(String(500))
+class ReplicaRecovery(Base):
+    __tablename__='replica_recoveries'
+    id: Mapped[int]=mapped_column(primary_key=True)
+    bundle_id: Mapped[int]=mapped_column(ForeignKey('replica_bundles.id'))
+    label: Mapped[str]=mapped_column(String(120))
+    status: Mapped[str]=mapped_column(String(20),default='queued')
+    snapshot: Mapped[dict]=mapped_column(JSON)
+    result: Mapped[dict | None]=mapped_column(JSON,nullable=True)
+    created_at: Mapped[datetime]=mapped_column(DateTime,default=now)
 class Audit(Base):
     __tablename__='audits'
     id: Mapped[int]=mapped_column(primary_key=True)
